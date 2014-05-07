@@ -1,0 +1,3 @@
+module StackCommander
+  VERSION = '0.0.1'
+end
