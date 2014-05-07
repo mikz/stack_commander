@@ -18,7 +18,54 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'stack_commander'
+
+class StackState
+  attr_accessor :other
+
+  def dependency
+    'gotten from somewhere'
+  end
+end
+
+class MyCommand
+  include StackCommander::Command
+
+  def initialize(dependency)
+    @dependency = dependency
+    @scope.other = 'yes, other'
+  end
+
+  def action
+    puts @dependency
+  end
+end
+
+class MyOtherCommand
+  include StackCommander::Command
+
+
+  def initialize(other)
+    @other = other
+  end
+
+  def action
+    puts @other
+  end
+end
+
+scope = StackState.new
+stack = StackCommander::Stack.new(scope)
+stack << MyCommand
+stack << MyOtherCommand
+stack.call
+```
+
+outputs:
+
+>  gotten from somewhere
+>  yes, other
 
 ## Contributing
 

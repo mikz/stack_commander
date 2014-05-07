@@ -29,8 +29,10 @@ module StackCommander
     def run_command(klass)
       parameters = StackCommander::DependencyInjection.new(klass).extract(@scope)
 
-      command = klass.new(*parameters)
+      command = klass.allocate
       command.instance_variable_set :@scope, @scope
+      command.__send__(:initialize, *parameters)
+
       command.call(self)
     end
   end
