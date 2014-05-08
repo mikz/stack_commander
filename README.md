@@ -1,6 +1,24 @@
 # StackCommander
 
-TODO: Write a gem description
+StackCommander takes fresh approach to Command Pattern in Ruby.
+We needed chaining of Commands with benefits of `rescue` and `ensure` which was hard to do without execution stack.
+
+Our use case is mainly to provide rollbacks and finalize blocks for each action so system is not left in unknown state.
+
+When doing prototypes one thing came up: how to share state between commands?
+
+We tried: passing state to the `action` method, passing state to the `initialize` and leaving user to instantiate commands by hand. Unfortunately each one of them had drawbacks and we decided to focus on following behaviour:
+
+* `initialize` is called just before the execution
+  * to prevent mistakes of calling something in initializer that might not be there yet
+  * or worse, it would be evaluated not on the stack, but before
+* `initialize` is called by the stack with explicit parameters instead of whole state object
+  * for easier testing
+  * and not to break Law of Demeter
+* command's `action`, `rescue` and `insurance` are called without state parameter
+* command has internal variable `@scope`
+
+It is not final, so constructive feedback is very much appreciated.
 
 ## Installation
 
