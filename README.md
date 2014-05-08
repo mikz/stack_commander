@@ -58,6 +58,10 @@ class MyCommand
   def action
     puts @dependency
   end
+
+  def insurance
+    puts 'command insurance'
+  end
 end
 
 class MyOtherCommand
@@ -71,6 +75,14 @@ class MyOtherCommand
   def action
     puts @other
   end
+
+  def insurance
+    puts 'other command insurance'
+  end
+
+  def recover(ex)
+    puts 'recovering exception: ' + ex.to_s
+  end
 end
 
 scope = StackState.new
@@ -82,8 +94,12 @@ stack.call
 
 outputs:
 
->  gotten from somewhere
->  yes, other
+```
+gotten from somewhere
+yes, other
+other command insurance
+command insurance
+```
 
 ## Contributing
 
