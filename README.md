@@ -15,7 +15,7 @@ We tried: passing state to the `action` method, passing state to the `initialize
 * `initialize` is called by the stack with explicit parameters instead of whole state object
   * for easier testing
   * and not to break Law of Demeter
-* command's `action`, `rescue` and `insurance` are called without state parameter
+* command's `action`, `recover` and `insurance` are called without state parameter
 * command has internal variable `@scope`
 
 It is not final, so constructive feedback is very much appreciated.
