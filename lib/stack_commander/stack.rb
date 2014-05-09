@@ -1,9 +1,9 @@
-require 'thread'
+require 'stack_commander'
 
 module StackCommander
   class Stack
     def initialize(scope)
-      @queue = Queue.new
+      @queue = []
       @scope = scope
     end
 
@@ -18,21 +18,26 @@ module StackCommander
     end
 
     def call
-      return if @queue.empty?
-      command_class = @queue.pop
-
-      run_command(command_class)
+      if command_class = @queue.shift
+        run_command(command_class)
+      end
     end
 
-    private
-
-    def run_command(klass)
+    # TODO: maybe this should be responsibility of the command? it would make testing easier
+    def initialize_command(klass)
       parameters = StackCommander::DependencyInjection.new(klass).extract(@scope)
 
       command = klass.allocate
       command.instance_variable_set :@scope, @scope
       command.__send__(:initialize, *parameters)
 
+      command
+    end
+
+    private
+
+    def run_command(klass)
+      command = initialize_command(klass)
       command.call(self)
     end
   end

@@ -23,20 +23,39 @@ describe StackCommander::Stack do
   end
 
   context 'with commands' do
-    let(:command) { double('command').as_null_object }
+    let(:command) { Class.new(StackCommander::BaseCommand) }
 
     before do
       stack << command
     end
 
     it 'runs the commands' do
-      expect(command).to receive(:call).with(stack)
+      expect_any_instance_of(command).to receive(:call).with(stack).and_call_original
+      expect_any_instance_of(command).to receive(:action)
+
       stack.call
     end
 
     it 'initializes the command' do
-      expect(command).to receive(:new).with
+      # TODO: this could be responsibility of the command
+      expect(stack).to receive(:initialize_command).with(command).and_call_original
       stack.call
+    end
+
+    context 'stacked' do
+      let(:other_command) { Class.new(StackCommander::BaseCommand) }
+
+      before do
+        stack << other_command
+      end
+
+      it 'calls action in stack manner' do
+        expect_any_instance_of(command).to receive(:action) do
+          expect_any_instance_of(other_command).to receive(:action)
+        end
+
+        stack.call
+      end
     end
   end
 end

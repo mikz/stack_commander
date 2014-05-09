@@ -6,3 +6,8 @@ gemspec
 gem 'yard'
 gem 'redcarpet'
 gem 'github-markup'
+
+group :test do
+  gem 'pry-debugger'
+  gem 'pry-stack_explorer'
+end
