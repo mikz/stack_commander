@@ -17,6 +17,8 @@ module StackCommander
     end
 
     def <<(command)
+      StackCommander::DependencyInjection.new(command).match!(@scope)
+
       @queue.push(command)
 
       self # for chaining awesomeness << cmd << cmd2 << cmd3

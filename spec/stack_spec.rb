@@ -12,7 +12,7 @@ describe StackCommander::Stack do
 
   it 'enqueues commands' do
     expect(stack.size).to eq(0)
-    stack << double('command')
+    stack << double('command').as_null_object
     expect(stack.size).to eq(1)
   end
 
@@ -64,6 +64,19 @@ describe StackCommander::Stack do
       it 'includes other command' do
         expect(stack).to include(other_command)
       end
+    end
+  end
+
+  context 'command not matching scope' do
+    let(:command) do
+      Class.new(StackCommander::BaseCommand) do
+        def initialize(dependency)
+        end
+      end
+    end
+
+    it 'checks scope when adding command' do
+      expect { stack << command }.to raise_error(StackCommander::DependencyInjection::InvalidScope)
     end
   end
 end

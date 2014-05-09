@@ -21,8 +21,12 @@ module StackCommander
       end
     end
 
-    def extract(scope)
+    def match!(scope)
       raise InvalidScope, scope unless matches?(scope)
+    end
+
+    def extract(scope)
+      match!(scope)
 
       required_parameters.map do |param|
         scope.public_send(param)
