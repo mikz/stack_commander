@@ -1,0 +1,10 @@
+language: ruby
+cache: bundler
+rvm:
+- 1.9.3
+- 2.0.0
+- 2.1.0
+- 2.1.1
+env:
+  global:
+    secure: JOSlHlo8J1HvzL2BMjok9LMDbhXBHy50Rv7RnYtct1ITeQR/r1qIPIZOCmVr3sh28XDY1ZbUsMbH1tSUL9xfgcGd/On37I4H3BesSMq+gG2EgZgOJAAdeUBG5xsoJpzyZbd9YSUZJRfbt8wlNA7EDaCfOiBQZPS2RhukBSTyTL4=
