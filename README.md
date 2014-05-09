@@ -1,4 +1,4 @@
-# StackCommander
+# StackCommander [![Build Status](https://travis-ci.org/mikz/stack_commander.svg?branch=master)](https://travis-ci.org/mikz/stack_commander)
 
 StackCommander takes fresh approach to Command Pattern in Ruby.
 We needed chaining of Commands with benefits of `rescue` and `ensure` which was hard to do without execution stack.
