@@ -56,6 +56,14 @@ describe StackCommander::Stack do
 
         stack.call
       end
+
+      it 'includes original command' do
+        expect(stack).to include(command)
+      end
+
+      it 'includes other command' do
+        expect(stack).to include(other_command)
+      end
     end
   end
 end

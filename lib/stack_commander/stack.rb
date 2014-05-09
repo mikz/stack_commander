@@ -1,7 +1,12 @@
 require 'stack_commander'
+require 'forwardable'
 
 module StackCommander
   class Stack
+    extend Forwardable
+
+    def_delegator :@queue, :include?
+
     def initialize(scope)
       @queue = []
       @scope = scope
