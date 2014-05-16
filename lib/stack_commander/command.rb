@@ -43,9 +43,9 @@ module StackCommander
       # Creates an anonymous subclass of current command, configured with passed value
       # then all instances of that command will have the same configuration
       def [](value)
-        Class.new(self) do
-          class_variable_set(CONFIGURATION, value)
-        end
+        subclass = Class.new(self)
+        subclass.class_variable_set(CONFIGURATION, value)
+        subclass
       end
     end
   end

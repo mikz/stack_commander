@@ -19,7 +19,7 @@ module StackCommander
 
     def configured_parameters
       parameters = @klass.class_variable_defined?(CVAR) && @klass.class_variable_get(CVAR)
-      parameters && parameters.respond_to?(:[]) ? parameters[:initialize] : parameters
+      parameters && parameters.respond_to?(:to_proc) ? @klass.instance_exec(:initialize, &parameters) : parameters
     end
 
     def parameters
@@ -39,7 +39,7 @@ module StackCommander
     def extract(scope)
       match!(scope)
 
-      required_parameters.map do |param|
+      parameters.map do |param|
         scope.public_send(param)
       end
     end
