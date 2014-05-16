@@ -53,4 +53,42 @@ describe StackCommander::Command do
       end
     end
   end
+
+  context 'classes including command' do
+    subject(:command) { Class.new{ include StackCommander::Command } }
+
+    before do
+      stub_const('TestCommand', command)
+    end
+
+    it 'has name' do
+      expect(command.to_s).to eq('TestCommand')
+    end
+
+    it 'has configuration' do
+      expect(command.configuration).to be_nil
+    end
+
+    context 'with config' do
+      subject(:configured_command) { command[:test] }
+
+      expect_it { to be }
+
+      it 'does not have a name' do
+        expect(configured_command.to_s).not_to eq('TestCommand')
+      end
+
+      it 'has configuration' do
+        expect(configured_command.configuration).to eq(:test)
+      end
+
+      context 'an instance' do
+        subject(:instance) { configured_command.new }
+
+        it 'has configuration' do
+          expect(instance.configuration).to eq(:test)
+        end
+      end
+    end
+  end
 end

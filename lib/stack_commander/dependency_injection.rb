@@ -2,6 +2,8 @@ module StackCommander
   class DependencyInjection
     InvalidScope = Class.new(StandardError)
 
+    CVAR = :@@dependency_injection
+
     def initialize(klass)
       @klass = klass
     end
@@ -15,14 +17,23 @@ module StackCommander
       Array(parameters)
     end
 
-    def matches?(scope)
-      required_parameters.all? do |param|
+    def configured_parameters
+      parameters = @klass.class_variable_defined?(CVAR) && @klass.class_variable_get(CVAR)
+      parameters && parameters.respond_to?(:[]) ? parameters[:initialize] : parameters
+    end
+
+    def parameters
+      configured_parameters || required_parameters
+    end
+
+    def matching?(scope)
+      parameters.all? do |param|
         scope.respond_to?(param)
       end
     end
 
     def match!(scope)
-      raise InvalidScope, scope unless matches?(scope)
+      raise InvalidScope, scope unless matching?(scope)
     end
 
     def extract(scope)
