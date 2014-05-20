@@ -11,6 +11,7 @@ describe StackCommander::Command do
 
     expect_it { to respond_to(:action) }
     expect_it { to respond_to(:insurance) }
+    expect_it { to respond_to(:cleanup) }
     expect_it { to respond_to(:recover).with(1).argument }
 
 
@@ -23,6 +24,11 @@ describe StackCommander::Command do
 
     it 'calls stack' do
       expect(stack).to receive(:call)
+      subject.call(stack)
+    end
+
+    it 'calls cleanup' do
+      expect(subject).to receive(:cleanup)
       subject.call(stack)
     end
 
@@ -49,6 +55,11 @@ describe StackCommander::Command do
 
       it 'calls recover' do
         expect(subject).to receive(:recover).with(an_instance_of(StandardError))
+        expect{ subject.call(stack) }.to raise_error(StandardError)
+      end
+
+      it 'does not call cleanup' do
+        expect(subject).not_to receive(:cleanup)
         expect{ subject.call(stack) }.to raise_error(StandardError)
       end
     end

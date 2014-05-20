@@ -49,9 +49,13 @@ describe StackCommander::Stack do
         stack << other_command
       end
 
-      it 'calls action in stack manner' do
+      it 'calls actions in stack manner' do
         expect_any_instance_of(command).to receive(:action) do
-          expect_any_instance_of(other_command).to receive(:action)
+          expect_any_instance_of(other_command).to receive(:action) do
+            expect_any_instance_of(other_command).to receive(:cleanup) do
+              expect_any_instance_of(command).to receive(:cleanup)
+            end
+          end
         end
 
         stack.call
