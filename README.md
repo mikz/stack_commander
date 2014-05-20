@@ -101,6 +101,10 @@ other command insurance
 command insurance
 ```
 
+# TODO
+* figure out how to configure commands without need of subclassing
+  for example Command Gzip accepts a file and outputs a gzipped file, how you can use this command twice in one stack?
+
 ## Contributing
 
 1. Fork it ( https://github.com/mikz/stack_commander/fork )
