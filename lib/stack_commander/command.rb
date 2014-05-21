@@ -5,10 +5,14 @@ module StackCommander
       stack.call
       cleanup
     rescue => exception
+      logger && logger.error(exception)
       recover(exception)
       raise
     ensure
       insurance
+    end
+
+    def logger
     end
 
     def cleanup
