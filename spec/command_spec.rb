@@ -52,18 +52,6 @@ describe StackCommander::Command do
         expect(stack).to receive(:call).and_raise(StandardError)
       end
 
-      context 'logger exists' do
-        let(:logger) { double('logger') }
-
-        before do
-          allow(subject).to receive(:logger).and_return(logger)
-        end
-
-        it 'logs error' do
-          expect(logger).to receive(:error).with(an_instance_of(StandardError))
-        end
-      end
-
       it 'still calls insurance' do
         expect(subject).to receive(:insurance)
       end
